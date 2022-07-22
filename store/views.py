@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
-from store.serializers import CategorySerializer, ProductSerializer
-from store.models import Category, Product
+from store.serializers import CategorySerializer, OrderSerializer, ProductSerializer
+from store.models import Category, Order, Product
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -61,4 +61,39 @@ def api_product(request, pk):
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@api_view(['GET','POST'])
+def get_orders(request):
+    if request.method == "GET":
+        orders=Order.objects.all()
+        serializer=OrderSerializer(orders, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    if request.method=="POST":
+        serializer=OrderSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
 
+def get_order(request, pk):
+    order=get_object_or_404(Order, id=pk)
+    if request.method == "GET":
+        serializer=OrderSerializer(order)
+        return Response(serializer.data)
+    
+    if request.method == "PUT":
+        serializer=OrderSerializer(order, data=request.data)
+        serializer.is_valid()
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+    #Cancel Order
+    if request.method =="DELETE":
+        order.delete()
+        return Response(serializer.data,status=status.is_success)
+
+
+    
+
+
+def add_to_cart(request):
+    pass
