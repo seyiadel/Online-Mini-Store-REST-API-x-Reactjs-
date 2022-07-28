@@ -67,7 +67,7 @@ def get_orders(request):
         orders=Order.objects.all()
         serializer=OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
+    # Make Order
     if request.method=="POST":
         serializer=OrderSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -75,17 +75,18 @@ def get_orders(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
 
-def get_order(request, pk):
-    order=get_object_or_404(Order, id=pk)
+@api_view(['GET','DELETE'])
+def get_orderitem(request, pk):
+    order=get_object_or_404(Order, product_id=pk)
     if request.method == "GET":
         serializer=OrderSerializer(order)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
-    if request.method == "PUT":
-        serializer=OrderSerializer(order, data=request.data)
-        serializer.is_valid()
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+    # if request.method == "PUT":
+    #     serializer=OrderSerializer(order, data=request.data)
+    #     serializer.is_valid()
+    #     serializer.save()
+    #     return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
     #Cancel Order
     if request.method =="DELETE":
         order.delete()
@@ -95,5 +96,7 @@ def get_order(request, pk):
     
 
 
-def add_to_cart(request):
+def add_to_cart(request, pk):
+    product=Product.objects.get(product_id=pk)
+    
     pass
