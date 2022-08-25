@@ -27,21 +27,34 @@ class Product(models.Model):
 class Order(models.Model):
     order_id=models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True,editable=False)
     product=models.ForeignKey(Product, on_delete=models.CASCADE)
-    customer_name= models.CharField(max_length=27,blank=True)
-    email=models.EmailField(blank=True)
-    address=models.CharField(max_length=200,blank=True)
-    phone_number=PhoneNumberField(blank=True)
-    state=models.CharField(max_length=50,blank=True)
-    lga=models.CharField(max_length=100, blank=True)
+    # customer_name= models.CharField(max_length=27,blank=True)
+    # email=models.EmailField(blank=True)
+    # address=models.CharField(max_length=200,blank=True)
+    # phone_number=PhoneNumberField(blank=True)
+    # state=models.CharField(max_length=50,blank=True)
+    # lga=models.CharField(max_length=100, blank=True)
     created_at=models.DateTimeField(auto_now_add=True) 
     quantity = models.PositiveIntegerField(default=1)
+    # total_price=models.DecimalField()
+     
+    # @property
+    # def total_price(self):
+    #     self.product.price * self.quantity
 
-    def __str__(self):
-        return self.email
+
+        
+
+
+    # def __str__(self):
+    #     return self
+
+    
 
     class Meta:
         ordering=['created_at']
 
 
-class Cart(models.Model):
-    pass
+# class Cart(models.Model):
+#     cart_id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True)
+#     product=models.ForeignKey(Product, on_delete=models.CASCADE)
+#     quantity=models.PositiveIntegerField(default=1)

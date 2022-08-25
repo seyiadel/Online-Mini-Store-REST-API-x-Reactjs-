@@ -1,13 +1,7 @@
-import imp
-from django.http import Http404
-from django.shortcuts import render
-from rest_framework.decorators import api_view
 from store.serializers import CategorySerializer, OrderSerializer, ProductSerializer
 from store.models import Category, Order, Product
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 from rest_framework import status
-from django.contrib import messages
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.views import APIView
 
@@ -36,12 +30,31 @@ class OrderListCreate(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     # Make Order
     def post(self,request):
-        serializer=OrderSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
+        orders=Order.objects.all()
+        for order in orders:
+            if order.product == order.product:
+                order.quantity += 1
+                order.save()
+                serializer=OrderSerializer(instance=order)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            # return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
+            break
+        else:
+            serializer=OrderSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
+      
+    def delete(self, request):
+        try:
+            orders=Order.objects.all()
+            orders.delete()
+            serializer=OrderSerializer(orders)
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
+        except AttributeError:
+             return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 class OrderItem(APIView):
     def get(self, request, pk):
@@ -76,17 +89,15 @@ class OrderItem(APIView):
         order.delete()
         serializer=OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-def add_to_cart(request, pk):
-    # Trying to increase Order quantity when being clicked and  calculate total price
-
-
-    pass
-    
+# Trying to increase Order quantity when being clicked and  calculate total price
 # order.quantity += 1
+# class Cart(APIView):
+#     def add_to_cart(self, request):
+#         product= Product.objects.all()
+#         orders= Order.objects.all
+        
 
-
+#         return Response( status=status.HTTP_200_OK)
 # class Checkout(APIView):
     
 #     def total_price(request, pk):

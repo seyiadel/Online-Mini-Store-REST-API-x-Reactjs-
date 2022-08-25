@@ -1,0 +1,32 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+asgiref = "==3.5.2"
+certifi = "==2022.6.15"
+charset-normalizer = "==2.1.0"
+coreapi = "==2.3.3"
+coreschema = "==0.0.4"
+django = "==4.0.6"
+django-phonenumber-field = "==6.3.0"
+djangorestframework = "==3.13.1"
+idna = "==3.3"
+itypes = "==1.2.0"
+jinja2 = "==3.1.2"
+markupsafe = "==2.1.1"
+phonenumbers = "==8.12.52"
+pillow = "==9.2.0"
+pytz = "==2022.1"
+pyyaml = "==6.0"
+requests = "==2.28.1"
+sqlparse = "==0.4.2"
+tzdata = "==2022.1"
+uritemplate = "==4.1.1"
+urllib3 = "==1.26.11"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
