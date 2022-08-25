@@ -37,19 +37,10 @@ class Order(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     # total_price=models.DecimalField()
      
-    # @property
-    # def total_price(self):
-    #     self.product.price * self.quantity
-
-
-        
-
-
-    # def __str__(self):
-    #     return self
-
-    
-
+    @property
+    def total_price(self):
+       return self.product.price * self.quantity
+       
     class Meta:
         ordering=['created_at']
 
