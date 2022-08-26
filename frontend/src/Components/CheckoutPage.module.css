@@ -1,0 +1,123 @@
+.checkoutBody {
+    display: flex;
+}
+
+.checkoutBody_inner {
+    margin: auto;
+    margin-top: 50px;
+    width: 50%;
+    padding: 10px 20px;
+}
+
+.checkoutBody_inner2 {
+    width: 25%;
+    border: 1.5px dotted black;
+    padding: 20px 20px;
+    margin: auto;
+}
+
+.checkoutBody_inner label {
+    color: black;
+    margin-bottom: 8px;
+    margin-top: 20px;
+    font-size: 20px;
+    display: block;
+}
+
+.checkoutBody_inner input {
+    display: flex;
+    padding: 10px 25px;
+    width: 100%;
+    border: 0.5px solid black;
+    border-radius: 5px;
+}
+
+.checkoutBody_inner input:focus {
+    outline: none;
+}
+
+.checkoutBody_inner_name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.checkoutBody_inner_name_inner {
+    width: 45%;
+}
+
+.button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px 25px;
+    background-color: black;
+    cursor: pointer;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+:disabled {
+    background-color: gray;
+    cursor: no-drop;
+}
+.cartList {
+    margin-bottom: 45px;
+}
+
+.items li {
+    color: rgb(71, 71, 71);
+    list-style-type: none;
+}
+
+.modal h2 {
+    position: fixed;
+    left: 10%;
+    top: 2%;
+}
+
+.list2 h2 a {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    color: black;
+    margin-bottom: 60px;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+}
+.wrapper{
+    width: 20%;
+}
+.wrapper img{
+    width: 100%;
+}
+.items{
+    display: flex;
+    justify-content: space-between;
+}
+.items h2{
+    font-size: 18px;
+}
+.total{
+ margin-top: 20px;
+}
+
+@media only screen and (max-width: 540px) {
+    .checkoutBody {
+        flex-direction: column;
+    }
+    .checkoutBody_inner {
+        margin: auto;
+        margin-top: 0px;
+        width: 95%;
+    }
+    .checkoutBody_inner2 {
+        width: 95%;
+        border: 1.5px dotted black;
+        padding: 10px 10px;
+        margin: auto;
+        margin-top: 30px;
+    }
+}
