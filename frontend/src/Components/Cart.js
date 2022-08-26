@@ -10,7 +10,7 @@ function Cart(props) {
     let totalSpent = `₦${ctx.totalAmount}`;
 
     const cartItemRemoveHandler = (id) => {
-        ctx.removeItem(id);
+        ctx.removeItem(id); 
     };
     const cartItemAddHandler = (item) => {
         ctx.addItem({ ...item, amount: 1 });
