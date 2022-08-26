@@ -1,0 +1,43 @@
+.form {
+    width: 100%;
+    display: flex;
+}
+
+.form form {
+    width: 100%;
+}
+
+.input{
+    display: flex;
+    margin: auto;
+    justify-content: space-between;
+}
+
+.input input {
+    font-size: 20px;
+    padding: 15px 25px;
+    border-radius: 10px;
+    background-color: rgb(249, 249, 249);
+    border: 0.5px solid black;
+    width: 100%;
+}
+
+.input input:focus{
+    outline: none;
+}
+
+@media only screen and (max-width: 912px){
+    .form form {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 540px){
+    .form form {
+        width: 100%;
+    }
+    .input input{
+        width: 100%;
+        padding: 12px 25px;
+    }
+}
