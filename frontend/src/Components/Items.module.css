@@ -1,0 +1,142 @@
+.wrapper {
+    width: 60%;
+    display: flex;
+    border-radius: 10px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.wrapper img {
+    height: 300px;
+    border-radius: 10px;
+    object-fit: contain;
+    margin: auto;
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+}
+
+.wrapper img:hover {
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.1);
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 30%;
+    margin: 15px 5px;
+    /* background-color: aqua; */
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 20px;
+    /* background-color: aqua; */
+}
+
+.card2 {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0px;
+}
+
+.title {
+    color: rgb(145, 145, 145);
+    font-size: 18px;
+    width: 100%;
+    max-width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0px;
+}
+
+.price {
+    margin: 9px 0px;
+    font-size: 19px;
+}
+
+.button {
+    background-color: rgb(26, 24, 24);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.info div h1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.innerInfo {
+    margin: auto;
+    text-align: center;
+}
+
+@media only screen and (max-width: 912px) {
+    .card {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 40%;
+        margin: 0px 5px;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    .wrapper {
+        width: 100%;
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 40%;
+        margin: 0px 5px;
+        /* background-color: aqua; */
+    }
+
+    .wrapper img {
+        height: 200px;
+        object-fit: contain;
+        border-radius: 10px;
+        margin: 0px;
+        width: 100%;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .card2 {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        margin: 15px 0px;
+    }
+
+    .list {
+        margin: 10px 0px;
+    }
+
+    .title {
+        font-size: 12px;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+    }
+
+    .price {
+        font-size: 15px;
+    }
+}

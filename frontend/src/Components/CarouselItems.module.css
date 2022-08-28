@@ -1,0 +1,43 @@
+.wrapper{
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.wrapper img{
+    object-fit: cover;
+    height: 250px;
+    border-radius: 10px;
+    margin: 5px 20px;
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+}
+
+.wrapper img:hover{
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.1);
+}
+.title{
+    display: flex;
+}
+.title h3{
+    margin: auto;
+}
+
+.head{
+    margin-bottom: 49px;
+}
+
+@media only screen and (max-width: 540px) {
+    .wrapper{
+        width: 100%;
+    }
+    .wrapper img{
+        object-fit: contain;
+        height: 200px;
+        margin: 0px 5px;
+    }
+}

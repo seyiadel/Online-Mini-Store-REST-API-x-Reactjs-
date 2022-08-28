@@ -1,0 +1,205 @@
+.wrapper {
+    width: 80%;
+    display: flex;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.wrapper img {
+    border-radius: 10px;
+    height: 400px;
+    margin: auto;
+    object-fit: cover;
+    width: 100%;
+    transition: all 0.2s ease-in-out;
+}
+
+.wrapper img:hover {
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.1);
+}
+
+.body {
+    display: flex;
+    width: 80%;
+    margin: 80px auto;
+    justify-content: space-around;
+}
+
+.body1 {
+    display: flex;
+}
+
+.descrip {
+    width: 70%;
+    margin-left: 72px;
+}
+
+.descrip p {
+    margin-top: 5px;
+}
+
+.button {
+    background-color: rgb(26, 24, 24);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    margin: 30px 0px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.list label {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.list input {
+    padding: 5px 5px;
+    border-radius: 8px;
+    border-color: black;
+    margin-right: 20px;
+}
+
+.list p {
+    margin: auto;
+    font-size: 20px;
+    width: 80%;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    border-radius: 5px;
+    padding: 20px 50px;
+    color: white;
+    background-color: rgb(29, 34, 34);
+    animation: fadeIn 0.7s forwards;
+}
+
+.price {
+    font-size: 29px;
+    font-weight: bold;
+}
+
+.descrip h1 {
+    font-size: 26px;
+}
+
+.images{
+    width: 60%;
+    display: flex;
+}
+
+.imagesInner{
+    margin: auto;
+}
+
+.wrapper2 {
+    width: 15%;
+    display: flex;
+    overflow: hidden;
+}
+
+.wrapper2 img {
+    cursor: pointer;
+    object-fit: contain;
+    width: 100%;
+}
+.imageSmall{
+    margin: auto;
+    display: flex;
+    margin-bottom: 12px;
+    justify-content: space-evenly;
+}
+
+.description{
+    margin-top: 16px;
+}
+
+@keyframes fadeIn {
+    from{
+        opacity: 0;
+        transform: scale(0);
+    }
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media only screen and (max-width: 912px) {
+    .body {
+        display: flex;
+        width: 100%;
+        margin: 40px 10px;
+    }
+
+    .wrapper img {
+        height: 100%;
+    }
+
+    .wrapper {
+        width: 100%;
+        display: flex;
+    }
+
+    .descrip {
+        width: 70%;
+        margin-left: 0px;
+    }
+
+    .list p {
+        margin-top: 0px;
+        width: 100%;
+    }
+    .wrapper2 img{
+        height: 100%;
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    .wrapper {
+        width: 100%;
+        display: flex;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+
+    .body {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        margin: 10px auto;
+        justify-content: space-between;
+    }
+
+    .descrip {
+        width: 100%;
+        margin-left: 0px;
+    }
+
+    .list p {
+        margin-top: 0px;
+        font-size: 15px;
+    }
+
+    .price {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .descrip h1 {
+        font-size: 17px;
+    }
+    .images{
+        width: 100%;
+    }
+    
+    .wrapper2 {
+        width: 20%;
+    }
+    .imageSmall{
+        margin-bottom: 25px;
+    }
+}
