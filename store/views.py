@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
 
 
 
@@ -29,19 +30,9 @@ class OrderListCreate(APIView):
         serializer=OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     # Make Order
-    def post(self,request):
-        orders=Order.objects.all()
-        for order in orders:
-            if order.product == order.product:
-                order.quantity += 1
-                order.save()
-                serializer=OrderSerializer(instance=order)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            # return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
-            break
-        else:
-            serializer=OrderSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
+    def post(self,request, format=None):
+        serializer=OrderSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -51,7 +42,7 @@ class OrderListCreate(APIView):
         try:
             orders=Order.objects.all()
             orders.delete()
-            serializer=OrderSerializer(orders)
+            serializer=OrderSerializer(orders, many=True)
             return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
         except AttributeError:
              return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)

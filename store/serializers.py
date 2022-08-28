@@ -12,19 +12,21 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model=Product
-        fields=['name','price', 'description','image', 'category','product_id',]
+        fields=['name','price', 'description','image', 'category','id',]
 
 class OrderSerializer(serializers.ModelSerializer):
+    product=serializers.PrimaryKeyRelatedField(many=False, queryset=Product.objects.all())
+
     class Meta:
         model=Order
-        fields=['order_id','product','quantity','created_at',]
+        fields=['id','product','quantity','created_at',]
 
-        def create(self, validated_data):
-            order=Order.objects.create(order_id=validated_data['order_id'],
-            product=validated_data['product'],
-            quantity=validated_data['quantity'],
-            created_at=validated_data['created_data'],)
-            order.save()
-            return order
+        # def create(self, validated_data):
+        #     order=Order.objects.create(order_id=validated_data['order_id'],
+        #     product=validated_data['product'],
+        #     quantity=validated_data['quantity'],
+        #     created_at=validated_data['created_data'],)
+        #     order.save()
+        #     return order
 
             
