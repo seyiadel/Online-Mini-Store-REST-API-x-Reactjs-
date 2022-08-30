@@ -21,7 +21,7 @@ function Items(props) {
                                     {/* <h1 className={styles.title}>{product.title}</h1> */}
                                 </div>
                                 <div>
-                                    <h3 className={styles.price}>₦{product.price}</h3>
+                                    <h3 className={styles.price}>₦{product.price.toFixed(2)}</h3>
                                 </div>
                             </div>
                         </div>
