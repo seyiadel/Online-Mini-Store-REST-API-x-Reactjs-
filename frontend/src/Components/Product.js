@@ -117,7 +117,7 @@ function Product() {
             <div className={styles.name}>
               <h1>{products.name}</h1>
             </div>
-            <p className={styles.price}>Price: ₦{products.price}</p>
+            <p className={styles.price}>Price: ₦{products.price?.toFixed(2)}</p>
             <div className={styles.description}>
               <h3>Description: </h3>
               <p>{products.description}</p>
