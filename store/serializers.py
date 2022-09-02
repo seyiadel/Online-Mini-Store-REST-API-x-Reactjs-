@@ -1,4 +1,3 @@
-from itertools import product
 from rest_framework import serializers
 
 from store.models import Category, Order ,Product
@@ -15,11 +14,12 @@ class ProductSerializer(serializers.ModelSerializer):
         fields=['name','price', 'description','image', 'category','id',]
 
 class OrderSerializer(serializers.ModelSerializer):
+    order_item_price=serializers.CharField()
     product=serializers.PrimaryKeyRelatedField(many=False, queryset=Product.objects.all())
 
     class Meta:
         model=Order
-        fields=['id','product','quantity','created_at',]
+        fields=['id','product','quantity','created_at','order_item_price',]
 
         # def create(self, validated_data):
         #     order=Order.objects.create(order_id=validated_data['order_id'],
@@ -29,4 +29,3 @@ class OrderSerializer(serializers.ModelSerializer):
         #     order.save()
         #     return order
 
-            

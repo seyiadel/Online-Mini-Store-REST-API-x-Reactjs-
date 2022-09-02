@@ -31,11 +31,13 @@ class Order(models.Model):
     quantity = models.PositiveIntegerField(default=1)
      
     @property
-    def total_price(self):
+    def order_item_price(self):
        return self.product.price * self.quantity
+
        
     class Meta:
         ordering=['created_at']
+
 
 
 # class Cart(models.Model):

@@ -49,14 +49,14 @@ class OrderListCreate(APIView):
 
 class OrderItem(APIView):
     def get(self, request, pk):
-        order=Order.objects.get(order_id=pk)
+        order=Order.objects.get(id=pk)
         order.quantity += 1
         order.save()
         serializer=OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self,request,pk):
-        order=Order.objects.get(order_id=pk)
+        order=Order.objects.get(id=pk)
         serializer=OrderSerializer(instance=order,data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -64,7 +64,7 @@ class OrderItem(APIView):
  
     # Decrease Order Quantity
     def put(self,request,pk):
-        order=Order.objects.get(order_id=pk)
+        order=Order.objects.get(id=pk)
         order.quantity -= 1
         if order.quantity <= 0 :#Bug not done
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -76,7 +76,7 @@ class OrderItem(APIView):
 
     #Cancel Order
     def delete(self,request,pk):
-        order=Order.objects.get(order_id=pk)
+        order=Order.objects.get(id=pk)
         order.delete()
         serializer=OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_200_OK)
