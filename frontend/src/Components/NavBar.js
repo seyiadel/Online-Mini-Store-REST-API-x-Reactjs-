@@ -1,18 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import Cart from './Cart';
 import styles from './NavBar.module.css'
 import { Link } from "react-router-dom";
 import Search from './Search'
-import CartContext from './Store/cart-context';
+// import CartContext from './Store/cart-context';
+import { useSelector } from 'react-redux';
 
 function NavBar({ search, setSearch }) {
     let [isClicked, setIsClicked] = useState(false)
-    let ctx = useContext(CartContext)
-    let numOfCartItems = ctx.items.reduce((currentNum, item) => {
-        return currentNum + item.amount
-    }, 0);
+    // let ctx = useContext(CartContext)
+    // let numOfCartItems = ctx.items.reduce((currentNum, item) => {
+    //     return currentNum + item.amount
+    // }, 0);
     // let { items } = ctx
-
+  let numOfCartItems = useSelector(state => state.cart.totalQuantity)
+  let items = useSelector(state => state.cart.items)
     let [openNav, setOpenNav] = useState(false);
 
     let openMobileNav = () => {
@@ -32,7 +34,7 @@ function NavBar({ search, setSearch }) {
     let searchChangeHandler = (e) => {
         setSearch(e.target.value)
     }
-    let { items } = ctx
+    // let { items } = ctx
     let bump = `${styles.num} ${isClicked ? styles.bump : ''}`
     useEffect(() => {
         if (items.length === 0) {

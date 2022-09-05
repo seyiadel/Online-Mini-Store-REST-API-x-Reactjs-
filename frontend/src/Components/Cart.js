@@ -1,20 +1,32 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styles from './Cart.module.css'
-import CartContext from './Store/cart-context'
+// import CartContext from './Store/cart-context'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { cartActions } from './redux-store/Index'
 
 function Cart(props) {
-    let ctx = useContext(CartContext)
-    let showOrder = ctx.items.length > 0
-    let emptyOrder = ctx.items.length === 0
-    let totalSpent = `₦${ctx.totalAmount}`;
+    let dispatch = useDispatch()
+    let items = useSelector(state => state.cart.items)
+    let amount = useSelector(state => state.cart.totalAmount)
+    // let ctx = useContext(CartContext)
+    // let showOrder = ctx.items.length > 0
+    // let emptyOrder = ctx.items.length === 0
+    let showOrder = items.length > 0
+    let emptyOrder = items.length === 0
+    // let totalSpent = `₦${ctx.totalAmount}`;
+    let totalSpent = `₦${amount}`;
 
     const cartItemRemoveHandler = (id) => {
-        ctx.removeItem(id); 
+        // ctx.removeItem(id); 
+        dispatch(cartActions.removeCartItem(id))
     };
-    const cartItemAddHandler = (item) => {
-        ctx.addItem({ ...item, amount: 1 });
-    };
+    // const cartItemAddHandler = (item) => {
+    //     // ctx.addItem({ ...item, amount: 1 });
+    //     dispatch(cartActions.addToCart({
+    //         id: item.id
+    //     }))
+    // };
     return (
         <div>
             <div className={styles.cover}>
@@ -27,18 +39,23 @@ function Cart(props) {
                     </div>
                     <div className={styles.list2}>
                         <ul className={styles['cart-items']}>
-                            {ctx.items.map((item) => (
-                                <div className={styles.cartList}>
+                            {items.map((item) => (
+                                <div key={item.id} className={styles.cartList}>
                                     <div className={styles.cover1}>
                                         <div className={styles.items}>
-                                            <h4 className={styles.h2}>{item.title}</h4>
+                                            <h4 className={styles.h2}>{item.name}</h4>
                                             <li>{`₦${item.price}`}</li>
                                         </div>
                                         <div className={styles.quantity}>
-                                            <div className={styles.amount}>X{item.amount}</div>
+                                            <div className={styles.amount}>X{item.quantity}</div>
                                             <div className={styles.button2}>
-                                                <button onClick={cartItemRemoveHandler.bind(null, item.id)}>-</button>
-                                                <button onClick={cartItemAddHandler.bind(null, item)}>+</button>
+                                                <button onClick={() => { cartItemRemoveHandler(item.id) }}>-</button>
+                                                <button onClick={() => dispatch(cartActions.addToCart({
+                                                    id: item.id,
+                                                    quantity: item.quantity,
+                                                    totalPrice: item.totalPrice
+                                                }
+                                                ))}>+</button>
                                             </div>
                                         </div>
                                     </div>
