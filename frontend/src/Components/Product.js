@@ -1,9 +1,12 @@
-import React, { useContext, useState, useRef, useEffect } from "react"
+import React, {  useState, useRef, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
 import styles from './product.module.css'
-import CartContext from "./Store/cart-context"
+// import CartContext from "./Store/cart-context"
 import Loader from "./Loader"
+import { useDispatch } from "react-redux"
+import { cartActions } from "./redux-store/Index"
+
 
 function Product() {
   let [amount, setAmount] = useState('1')
@@ -14,7 +17,9 @@ function Product() {
   // const [isInitiallyFetched, setIsInitiallyFetched] = useState(false);
   let [imgIndex, setImgIndex] = useState(0)
   let amountInputRef = useRef()
-  let ctx = useContext(CartContext)
+  // let ctx = useContext(CartContext)
+  let dispatch = useDispatch()
+  // let cart = useSelector(state => state.cart)
 
   const { productId } = useParams()
   const url = `https://thegorana.herokuapp.com/products/${productId}`
@@ -30,19 +35,24 @@ function Product() {
     getProduct();
   }, [url]);
 
+  // useEffect(() => {
+  //   // console.log(ctx.items)
+  //   console.log(cart)
+  // }, [ cart])
+
   // const products = props.Lists.find(prod => String(prod._id) === productId)
 
 
-  const addToCartHandler = (amount) => {
-    ctx.addItem({
-      key: products._id,
-      id: products._id,
-      title: products.name,
-      images: products.images[0],
-      amount: amount,
-      price: products.price,
-    });
-  }
+  // const addToCartHandler = (amount) => {
+  //   ctx.addItem({
+  //     key: products._id,
+  //     id: products._id,
+  //     title: products.name,
+  //     images: products.images[0],
+  //     amount: amount,
+  //     price: products.price,
+  //   });
+  // }
 
   let amountFormHandler = (e) => {
     e.preventDefault()
@@ -62,7 +72,19 @@ function Product() {
       setInputIsValid(false);
     }
 
-    addToCartHandler(enteredAmountNum)
+    //redux//
+
+    dispatch(cartActions.addToCart({
+      id: products._id,
+      title: products.name,
+      images: products.images[0],
+      quantity: enteredAmountNum,
+      price: products.price,
+    }))
+
+
+    //redux//
+    // addToCartHandler(enteredAmountNum)
     setAmount('1')
   }
 
@@ -75,20 +97,6 @@ function Product() {
       setAdded(false)
     }, 2000)
   }
-
-  //   useEffect(()=>{
-  //     let prev_items = JSON.parse(localStorage.getItem('cart')) || [];
-  //     ctx.addItem(prev_items)
-  //     setIsInitiallyFetched(true)
-  //   },[])
-
-
-  // useEffect(() => {
-  //   if(isInitiallyFetched){
-  //     localStorage.setItem("cart", JSON.stringify(ctx.items));
-  //     // let c = totalSpent;
-  //   }
-  // }, [ctx.items , isInitiallyFetched]);
 
   return (
     <div>

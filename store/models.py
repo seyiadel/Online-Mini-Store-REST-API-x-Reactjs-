@@ -14,7 +14,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     category=models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
-    product_id=models.UUIDField(default=uuid.uuid4,primary_key=True,unique=True,editable=False)
+    id=models.UUIDField(default=uuid.uuid4,primary_key=True,unique=True,editable=False)
     image=models.ImageField(upload_to='productimages', blank=True)
     name=models.CharField(max_length=100)
     description=models.CharField(max_length=320)
@@ -25,24 +25,19 @@ class Product(models.Model):
         return self.name
 
 class Order(models.Model):
-    order_id=models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True,editable=False)
+    id=models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True,editable=False)
     product=models.ForeignKey(Product, on_delete=models.CASCADE)
-    # customer_name= models.CharField(max_length=27,blank=True)
-    # email=models.EmailField(blank=True)
-    # address=models.CharField(max_length=200,blank=True)
-    # phone_number=PhoneNumberField(blank=True)
-    # state=models.CharField(max_length=50,blank=True)
-    # lga=models.CharField(max_length=100, blank=True)
     created_at=models.DateTimeField(auto_now_add=True) 
     quantity = models.PositiveIntegerField(default=1)
-    # total_price=models.DecimalField()
      
     @property
-    def total_price(self):
+    def order_item_price(self):
        return self.product.price * self.quantity
+
        
     class Meta:
         ordering=['created_at']
+
 
 
 # class Cart(models.Model):
