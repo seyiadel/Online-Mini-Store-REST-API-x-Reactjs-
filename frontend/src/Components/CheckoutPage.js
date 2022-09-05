@@ -3,6 +3,8 @@ import styles from './CheckoutPage.module.css'
 // import CartContext from './Store/cart-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { cartActions } from './redux-store/Index'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function CheckoutPage() {
@@ -16,6 +18,7 @@ function CheckoutPage() {
     let [address, setAddress] = useState('')
     let [phoneNumber, setPhoneNumber] = useState('')
     let items = useSelector(state => state.cart.items)
+    const cart = useSelector(state => state.cart)
     let amount = useSelector(state => state.cart.totalAmount)
     let dispatch = useDispatch()
     // let ctx = useContext(CartContext)
@@ -32,14 +35,50 @@ function CheckoutPage() {
 
     let formSubmitHandler = (e) => {
         e.preventDefault()
-        dispatch(cartActions.clearCart())
-        setFirstName('')
-        setLastName('')
-        setAddress('')
-        setCity('')
-        setState('')
-        setPhoneNumber('')
-        setEmail('')
+        let sendCartInfo = async () => {
+            let res = await fetch('https://react-http-c8f21-default-rtdb.firebaseio.com/items.json',
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        Items: cart.items,
+                        TotalAmount: cart.totalAmount,
+                        TotalQuantity: cart.totalQuantity,
+                        Firstname: firstName,
+                        LastName: lastName,
+                        Address: address,
+                        City: city,
+                        State: state,
+                        Country : country,
+                        PhoneNumber: phoneNumber,
+                        Email: email,
+                    })
+                }
+            )
+            if (!res.ok) {
+                throw new Error('Sending cart data failed.');
+            }
+            else if (res.status === 200) {
+                dispatch(cartActions.clearCart())
+                setFirstName('')
+                setLastName('')
+                setAddress('')
+                setCity('')
+                setState('')
+                setPhoneNumber('')
+                setEmail('')
+                toast.success("Order sent successfully", {
+                    position: "top-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark'
+                });
+            }
+        }
+        sendCartInfo()
     }
 
     let FirstNameChangeHandler = (e) => {
@@ -72,6 +111,7 @@ function CheckoutPage() {
     }
     return (
         <div className={styles.checkoutBody}>
+            <ToastContainer />
             <div className={styles.checkoutBody_inner}>
                 <h1>Checkout</h1>
                 <form onSubmit={formSubmitHandler}>
