@@ -4,6 +4,8 @@ import styles from './Cart.module.css'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { cartActions } from './redux-store/Index'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Cart(props) {
     let dispatch = useDispatch()
@@ -19,16 +21,35 @@ function Cart(props) {
 
     const cartItemRemoveHandler = (id) => {
         // ctx.removeItem(id); 
+        toast.success("Item removed", {
+            position: "top-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark'
+        });
         dispatch(cartActions.removeCartItem(id))
     };
-    // const cartItemAddHandler = (item) => {
-    //     // ctx.addItem({ ...item, amount: 1 });
-    //     dispatch(cartActions.addToCart({
-    //         id: item.id
-    //     }))
-    // };
+    const cartItemAddHandler = (item) => {
+        // ctx.addItem({ ...item, amount: 1 });
+        toast.success('Item added to cart', {
+            position: "top-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark'
+          });
+        dispatch(cartActions.addToCart(item))
+    };
     return (
         <div>
+            <ToastContainer />
             <div className={styles.cover}>
                 <div className={styles.modal}>
                     <h2>Cart</h2>
@@ -50,12 +71,13 @@ function Cart(props) {
                                             <div className={styles.amount}>X{item.quantity}</div>
                                             <div className={styles.button2}>
                                                 <button onClick={() => { cartItemRemoveHandler(item.id) }}>-</button>
-                                                <button onClick={() => dispatch(cartActions.addToCart({
-                                                    id: item.id,
-                                                    quantity: item.quantity,
-                                                    totalPrice: item.totalPrice
-                                                }
-                                                ))}>+</button>
+                                                <button onClick={() => {
+                                                    cartItemAddHandler({
+                                                        id: item.id,
+                                                        quantity: item.quantity,
+                                                        totalPrice: item.totalPrice
+                                                    })
+                                                }}>+</button>
                                             </div>
                                         </div>
                                     </div>

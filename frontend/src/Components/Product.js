@@ -1,4 +1,4 @@
-import React, {  useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
 import styles from './product.module.css'
@@ -6,14 +6,17 @@ import styles from './product.module.css'
 import Loader from "./Loader"
 import { useDispatch } from "react-redux"
 import { cartActions } from "./redux-store/Index"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+let isValid = false
 
 
 function Product() {
   let [amount, setAmount] = useState('1')
   let [products, setProducts] = useState([])
-  let [added, setAdded] = useState(false)
+  // let [added, setAdded] = useState(false)
   let [isLoading, setIsLoading] = useState(false)
-  let [inputIsValid, setInputIsValid] = useState(false)
+  // let [inputIsValid, setInputIsValid] = useState(false)
   // const [isInitiallyFetched, setIsInitiallyFetched] = useState(false);
   let [imgIndex, setImgIndex] = useState(0)
   let amountInputRef = useRef()
@@ -62,16 +65,26 @@ function Product() {
     if (enteredAmount.trim().length === 0 ||
       enteredAmountNum < 1 ||
       enteredAmountNum > 9) {
-      setInputIsValid(true);
-      setAdded(false)
-      setTimeout(() => {
-        setInputIsValid(false)
-      }, 2000)
+      // setInputIsValid(true);
+      // setAdded(false)
+      isValid = true
+      if (isValid === true) {
+        toast.warning("Can't add more than 9 items at once.", {
+          position: "top-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark'
+        });
+      } else {
+        isValid = false
+      }
       return;
-    } else {
-      setInputIsValid(false);
     }
-
+    isValid = false
     //redux//
 
     dispatch(cartActions.addToCart({
@@ -92,15 +105,22 @@ function Product() {
     setAmount(e.target.value)
   }
   let addedToCartHandler = () => {
-    setAdded(true)
-    setTimeout(() => {
-      setAdded(false)
-    }, 2000)
+    toast.success('Item added to cart', {
+      position: "top-left",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'dark'
+    });
   }
 
   return (
     <div>
       {isLoading && <Loader />}
+      <ToastContainer />
       <div className={styles.body1}>
         <div className={styles.body}>
           <div className={styles.images}>
@@ -131,8 +151,8 @@ function Product() {
               <p>{products.description}</p>
             </div>
             <div className={styles.list}>
-              {inputIsValid && <p>Can't add more than 9 items at once.</p>}
-              {added && <p>Item added to cart</p>}
+              {/* {inputIsValid && <p>Can't add more than 9 items at once.</p>} */}
+              {/* {added && <p>Item added to cart</p>} */}
               <form onSubmit={amountFormHandler}>
                 <label>Quantity:</label>
                 <input
