@@ -1,20 +1,28 @@
-import React, { useContext, useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import axios from "axios"
 import styles from './product.module.css'
-import CartContext from "./Store/cart-context"
+// import CartContext from "./Store/cart-context"
 import Loader from "./Loader"
+import { useDispatch } from "react-redux"
+import { cartActions } from "./redux-store/Index"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+let isValid = false
+
 
 function Product() {
   let [amount, setAmount] = useState('1')
   let [products, setProducts] = useState([])
-  let [added, setAdded] = useState(false)
+  // let [added, setAdded] = useState(false)
   let [isLoading, setIsLoading] = useState(false)
-  let [inputIsValid, setInputIsValid] = useState(false)
+  // let [inputIsValid, setInputIsValid] = useState(false)
   // const [isInitiallyFetched, setIsInitiallyFetched] = useState(false);
   let [imgIndex, setImgIndex] = useState(0)
   let amountInputRef = useRef()
-  let ctx = useContext(CartContext)
+  // let ctx = useContext(CartContext)
+  let dispatch = useDispatch()
+  // let cart = useSelector(state => state.cart)
 
   const { productId } = useParams()
   const url = `http://127.0.0.1:8009/store-api/products/${productId}`
@@ -30,19 +38,24 @@ function Product() {
     getProduct();
   }, [url]);
 
+  // useEffect(() => {
+  //   // console.log(ctx.items)
+  //   console.log(cart)
+  // }, [ cart])
+
   // const products = props.Lists.find(prod => String(prod._id) === productId)
 
 
-  const addToCartHandler = (amount) => {
-    ctx.addItem({
-      key: products._id,
-      id: products._id,
-      title: products.name,
-      images: products.images[0],
-      amount: amount,
-      price: products.price,
-    });
-  }
+  // const addToCartHandler = (amount) => {
+  //   ctx.addItem({
+  //     key: products._id,
+  //     id: products._id,
+  //     title: products.name,
+  //     images: products.images[0],
+  //     amount: amount,
+  //     price: products.price,
+  //   });
+  // }
 
   let amountFormHandler = (e) => {
     e.preventDefault()
@@ -52,17 +65,39 @@ function Product() {
     if (enteredAmount.trim().length === 0 ||
       enteredAmountNum < 1 ||
       enteredAmountNum > 9) {
-      setInputIsValid(true);
-      setAdded(false)
-      setTimeout(() => {
-        setInputIsValid(false)
-      }, 2000)
+      // setInputIsValid(true);
+      // setAdded(false)
+      isValid = true
+      if (isValid === true) {
+        toast.warning("Can't add more than 9 items at once.", {
+          position: "top-left",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark'
+        });
+      } else {
+        isValid = false
+      }
       return;
-    } else {
-      setInputIsValid(false);
     }
+    isValid = false
+    //redux//
 
-    addToCartHandler(enteredAmountNum)
+    dispatch(cartActions.addToCart({
+      id: products._id,
+      title: products.name,
+      images: products.images[0],
+      quantity: enteredAmountNum,
+      price: products.price,
+    }))
+
+
+    //redux//
+    // addToCartHandler(enteredAmountNum)
     setAmount('1')
   }
 
@@ -70,29 +105,22 @@ function Product() {
     setAmount(e.target.value)
   }
   let addedToCartHandler = () => {
-    setAdded(true)
-    setTimeout(() => {
-      setAdded(false)
-    }, 2000)
+    toast.success('Item added to cart', {
+      position: "top-left",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'dark'
+    });
   }
-
-  //   useEffect(()=>{
-  //     let prev_items = JSON.parse(localStorage.getItem('cart')) || [];
-  //     ctx.addItem(prev_items)
-  //     setIsInitiallyFetched(true)
-  //   },[])
-
-
-  // useEffect(() => {
-  //   if(isInitiallyFetched){
-  //     localStorage.setItem("cart", JSON.stringify(ctx.items));
-  //     // let c = totalSpent;
-  //   }
-  // }, [ctx.items , isInitiallyFetched]);
 
   return (
     <div>
       {isLoading && <Loader />}
+      <ToastContainer />
       <div className={styles.body1}>
         <div className={styles.body}>
           <div className={styles.images}>
@@ -123,8 +151,8 @@ function Product() {
               <p>{products.description}</p>
             </div>
             <div className={styles.list}>
-              {inputIsValid && <p>Can't add more than 9 items at once.</p>}
-              {added && <p>Item added to cart</p>}
+              {/* {inputIsValid && <p>Can't add more than 9 items at once.</p>} */}
+              {/* {added && <p>Item added to cart</p>} */}
               <form onSubmit={amountFormHandler}>
                 <label>Quantity:</label>
                 <input

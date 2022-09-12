@@ -1,6 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './CheckoutPage.module.css'
-import CartContext from './Store/cart-context'
+// import CartContext from './Store/cart-context'
+import { useDispatch, useSelector } from 'react-redux'
+import { cartActions } from './redux-store/Index'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function CheckoutPage() {
@@ -13,8 +17,13 @@ function CheckoutPage() {
     let [state, setState] = useState('')
     let [address, setAddress] = useState('')
     let [phoneNumber, setPhoneNumber] = useState('')
-    let ctx = useContext(CartContext)
-    let totalSpent = `₦${ctx.totalAmount}`;
+    let items = useSelector(state => state.cart.items)
+    const cart = useSelector(state => state.cart)
+    let amount = useSelector(state => state.cart.totalAmount)
+    let dispatch = useDispatch()
+    // let ctx = useContext(CartContext)
+    // let totalSpent = `₦${ctx.totalAmount}`;
+    let totalSpent = `₦${amount}`;
 
     useEffect(() => {
         if (firstName.trim().length >= 2 && lastName.trim().length >= 2 && address.trim().length >= 2 && city.trim().length >= 2 && state.trim().length >= 2 && phoneNumber.trim().length >= 2 && email.includes('@') && email.includes('.com')) {
@@ -25,8 +34,51 @@ function CheckoutPage() {
     }, [firstName, lastName, address, phoneNumber, city, state, email])
 
     let formSubmitHandler = (e) => {
-        // e.preventDefault()
-        localStorage.removeItem('items')
+        e.preventDefault()
+        let sendCartInfo = async () => {
+            let res = await fetch('https://react-http-c8f21-default-rtdb.firebaseio.com/items.json',
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        Items: cart.items,
+                        TotalAmount: cart.totalAmount,
+                        TotalQuantity: cart.totalQuantity,
+                        Firstname: firstName,
+                        LastName: lastName,
+                        Address: address,
+                        City: city,
+                        State: state,
+                        Country : country,
+                        PhoneNumber: phoneNumber,
+                        Email: email,
+                    })
+                }
+            )
+            if (!res.ok) {
+                throw new Error('Sending cart data failed.');
+            }
+            else if (res.status === 200) {
+                dispatch(cartActions.clearCart())
+                setFirstName('')
+                setLastName('')
+                setAddress('')
+                setCity('')
+                setState('')
+                setPhoneNumber('')
+                setEmail('')
+                toast.success("Order sent successfully", {
+                    position: "top-left",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'dark'
+                });
+            }
+        }
+        sendCartInfo()
     }
 
     let FirstNameChangeHandler = (e) => {
@@ -59,6 +111,7 @@ function CheckoutPage() {
     }
     return (
         <div className={styles.checkoutBody}>
+            <ToastContainer />
             <div className={styles.checkoutBody_inner}>
                 <h1>Checkout</h1>
                 <form onSubmit={formSubmitHandler}>
@@ -147,20 +200,20 @@ function CheckoutPage() {
             </div>
             <div className={styles.checkoutBody_inner2}>
                 <ul className={styles['cart-items']}>
-                    {ctx.items.map((item) => (
-                        <div className={styles.cartList} key={item._id}>
+                    {items.map((item) => (
+                        <div className={styles.cartList} key={item.id}>
                             <div className={styles.cover1}>
                                 <div className={styles.items}>
                                     <div>
-                                        <h4 className={styles.h2}>{item.title}</h4>
+                                        <h4 className={styles.h2}>{item.name}</h4>
                                         <li>Price: {`₦${item.price}`}</li>
                                     </div>
                                     <div className={styles.quantity}>
-                                        <h2 className={styles.amount}>X{item.amount}</h2>
+                                        <h2 className={styles.amount}>X{item.quantity}</h2>
                                     </div>
                                 </div>
                                 <div className={styles.wrapper}>
-                                    <img src={item.images} alt={item.title} />
+                                    <img src={item.image} alt={item.title} />
                                 </div>
                             </div>
                         </div>
