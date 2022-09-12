@@ -30,8 +30,11 @@ class OrderListCreate(APIView):
         serializer=OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     # Make Order
-    def post(self,request, format=None):
+    def post(self,request):
         serializer=OrderSerializer(data=request.data)
+        product = Product.objects.get(pk=request.data['product'])
+        if Order.objects.filter(product=product).exists():
+            quantity += 1
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

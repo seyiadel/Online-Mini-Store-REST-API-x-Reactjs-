@@ -17,7 +17,7 @@ function Product() {
   let ctx = useContext(CartContext)
 
   const { productId } = useParams()
-  const url = `https://thegorana.herokuapp.com/products/${productId}`
+  const url = `http://127.0.0.1:8009/store-api/products/${productId}`
   useEffect(() => {
     const getProduct = async () => {
       setIsLoading(true)
