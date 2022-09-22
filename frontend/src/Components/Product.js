@@ -25,7 +25,7 @@ function Product() {
   // let cart = useSelector(state => state.cart)
 
   const { productId } = useParams()
-  const url = `http://127.0.0.1:8009/store-api/products/${productId}`
+  const url = `http://127.0.0.1:8009/store-api/products/` //+${productId}
   useEffect(() => {
     const getProduct = async () => {
       setIsLoading(true)

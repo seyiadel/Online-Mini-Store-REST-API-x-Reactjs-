@@ -13,7 +13,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    category=models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
+    category=models.ForeignKey(Category, related_name="products", on_delete=models.SET_NULL, blank=True, null=True)
     id=models.UUIDField(default=uuid.uuid4,primary_key=True,unique=True,editable=False)
     image=models.ImageField(upload_to='productimages', blank=True)
     name=models.CharField(max_length=100)
