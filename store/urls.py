@@ -4,6 +4,7 @@ from rest_framework.documentation import include_docs_urls # new
 from rest_framework.schemas import get_schema_view
 
 
+
 schema_view = get_schema_view(title='Mini Online Store REST API by ADeL')
 
 

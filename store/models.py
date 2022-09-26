@@ -13,7 +13,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    category=models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
+    category=models.ForeignKey(Category, related_name="products", on_delete=models.SET_NULL, blank=True, null=True)
     id=models.UUIDField(default=uuid.uuid4,primary_key=True,unique=True,editable=False)
     image=models.ImageField(upload_to='productimages', blank=True)
     name=models.CharField(max_length=100)
@@ -26,15 +26,16 @@ class Product(models.Model):
 
 class Order(models.Model):
     id=models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True,editable=False)
-    product=models.ForeignKey(Product, on_delete=models.CASCADE)
-    created_at=models.DateTimeField(auto_now_add=True) 
+    product=models.ForeignKey(Product, on_delete=models.CASCADE, null=False)
+    created_at=models.DateTimeField(auto_now_add=True)
     quantity = models.PositiveIntegerField(default=1)
-     
-    @property
-    def order_item_price(self):
-       return self.product.price * self.quantity
+    
+    def __str__(self):
+        return self.id
+    # @property
+    # def order_item_price(self):
+    #    return self.product.price * self.quantity
 
-       
     class Meta:
         ordering=['created_at']
 
