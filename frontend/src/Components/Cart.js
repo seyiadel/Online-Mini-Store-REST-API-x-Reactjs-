@@ -21,7 +21,7 @@ function Cart(props) {
 
     const cartItemRemoveHandler = (id) => {
         // ctx.removeItem(id); 
-        toast.success("Item removed", {
+        toast.success("Item removed from cart", {
             position: "top-left",
             autoClose: 5000,
             hideProgressBar: false,
