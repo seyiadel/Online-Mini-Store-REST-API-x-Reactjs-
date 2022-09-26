@@ -27,9 +27,11 @@ class Product(models.Model):
 class Order(models.Model):
     id=models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True,editable=False)
     product=models.ForeignKey(Product, on_delete=models.CASCADE, null=False)
-    created_at=models.DateTimeField(auto_now_add=True) 
+    created_at=models.DateTimeField(auto_now_add=True)
     quantity = models.PositiveIntegerField(default=1)
-     
+    
+    def __str__(self):
+        return self.id
     # @property
     # def order_item_price(self):
     #    return self.product.price * self.quantity

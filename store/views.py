@@ -35,9 +35,12 @@ class OrderListCreate(APIView):
         product = Product.objects.get(pk=request.data['product'])
         if Order.objects.filter(product=product).exists():
             quantity += 1
+        else:
+            order=Order.objects.create(product=product)
+            order.save()
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, data="Item added to Cart")
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
       
@@ -52,7 +55,7 @@ class OrderListCreate(APIView):
 
 class OrderItem(APIView):
     def get(self, request, pk):
-        order=Order.objects.get(id=pk)
+        order=OrderItem.objects.get(id=pk)
         order.quantity += 1
         order.save()
         serializer=OrderSerializer(order)
@@ -79,7 +82,7 @@ class OrderItem(APIView):
 
     #Cancel Order
     def delete(self,request,pk):
-        order=Order.objects.get(id=pk)
+        order=OrderItem.objects.get(id=pk)
         order.delete()
         serializer=OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_200_OK)
