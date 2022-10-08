@@ -17,7 +17,8 @@ function App() {
   let [empty, setEmpty] = useState(false)
   let [isOrdered, setIsOrdered] = useState(false)
   const [filteredResults, setFilteredResults] = useState(product);
-  let url = "http://127.0.0.1:8009/store-api/products/"
+  // let url = "http://127.0.0.1:8009/store-api/products/"
+  let url = 'https://thegorana.herokuapp.com/products/?page=23'
   useEffect(() => {
     const getProduct = async () => {
       setIsLoading(true)

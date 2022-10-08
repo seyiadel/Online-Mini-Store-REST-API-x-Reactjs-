@@ -116,6 +116,17 @@
     margin-top: 16px;
 }
 
+.extraButtons{
+    /* background-color: red; */
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row-reverse;
+}
+.extraButtons button{
+  width: 25%;
+  /* font-size: px; */
+}
 @keyframes fadeIn {
     from{
         opacity: 0;
@@ -201,5 +212,11 @@
     }
     .imageSmall{
         margin-bottom: 25px;
+    }
+    .extraButtons{
+        width: 100%;
+    }
+    .extraButtons button{
+      width: 35%;
     }
 }
